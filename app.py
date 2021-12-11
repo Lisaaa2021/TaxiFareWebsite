@@ -32,3 +32,4 @@ if all_inputs:
             st.write(prediction)
         else:
             st.write('Sorry, something went wrong 😢 Please try again')
+st.write('Sorry, something went wrong 😢 Please try again')
