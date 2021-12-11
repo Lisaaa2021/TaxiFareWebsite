@@ -18,11 +18,10 @@ d_lon = st.text_input('Dropoff Longtitude')
 passenger = st.text_input("Passanger_count")
 
 url = f'''https://taxifare.lewagon.ai/predict?pickup_datetime={date}&pickup_longitude={p_lat}&pickup_latitude={p_lon}&dropoff_longitude={d_lat}&dropoff_latitude={d_lon}&passenger_count={passenger}'''
-
+pred_clicked = st.button('Predict')
 all_inputs = date and p_lat and p_lon and d_lat and d_lon and passenger
 if all_inputs:
     st.json(dict(date = date, p_lat=p_lat,p_lon = p_lon, d_lat=d_lat, d_lon = d_lon, passenger = passenger))
-    pred_clicked = st.button('Predict')
     fare = 0
     if pred_clicked:
         res = requests.get(url)
