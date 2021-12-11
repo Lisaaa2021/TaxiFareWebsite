@@ -34,3 +34,5 @@ if pred_clicked:
         st.write(prediction)
     else:
         st.write('Sorry, something went wrong 😢 Please try again')
+
+st.write('update test')
