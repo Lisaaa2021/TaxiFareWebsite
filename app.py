@@ -1,46 +1,36 @@
 import streamlit as st
-'''
-# TaxiFareModel front
-'''
+import requests
 
-st.markdown('''
-Remember that there are several ways to output content into your web page...
+st.markdown("""
+    # TaxiFareModel
 
-Either as with the title by just creating a string (or an f-string). Or as with this paragraph using the `st.` functions
-''')
-'''
-## Here we would like to add some controllers in order to ask the user to select the parameters of the ride
+    ## Version 1.0
+    developed by robotlisa
+""")
 
-1. Let's ask for:
-- date and time
-- pickup longitude
-- pickup latitude
-- dropoff longitude
-- dropoff latitude
-- passenger count
-'''
-'''
-## Once we have these, let's call our API in order to retrieve a prediction
+st.text("") # add a empty line
 
-See ? No need to load a `model.joblib` file in this app, we do not even need to know anything about Data Science in order to retrieve a prediction...
+date = st.text_input('Date and time. Format: 2012-10-06 12:10:20')
+p_lat = st.text_input('Pickup Latitude')
+p_lon = st.text_input('Pickup Longtitude')
+d_lat = st.text_input('Dropoff Latitude')
+d_lon = st.text_input('Dropoff Longtitude')
+passenger = st.text_input("Passanger_count")
 
-🤔 How could we call our API ? Off course... The `requests` package 💡
-'''
+all_inputs = date and p_lat and p_lon and d_lat and d_lon and passenger
+if all_inputs:
+    st.json(dict(date = date, p_lat=p_lat,p_lon = p_lon, d_lat=d_lat, d_lon = d_lon, passenger = passenger))
 
-url = 'https://taxifare.lewagon.ai/predict'
 
-if url == 'https://taxifare.lewagon.ai/predict':
+url = f'''https://taxifare.lewagon.ai/predict?pickup_datetime={date}&pickup_longitude={p_lat}&pickup_latitude={p_lon}&dropoff_longitude={d_lat}&dropoff_latitude={d_lon}&passenger_count={passenger}'''
 
-    st.markdown(
-        'Maybe you want to use your own API for the prediction, not the one provided by Le Wagon...'
-    )
-'''
-
-2. Let's build a dictionary containing the parameters for our API...
-
-3. Let's call our API using the `requests` package...
-
-4. Let's retrieve the prediction from the **JSON** returned by the API...
-
-## Finally, we can display the prediction to the user
-'''
+pred_clicked = st.button('Predict')
+fare = 0
+if pred_clicked:
+    res = requests.get(url)
+    prediction = res.json()['prediction']
+    if res.status_code == 200:
+        st.write('Predicted Price')
+        st.write(prediction)
+    else:
+        st.write('Sorry, something went wrong 😢 Please try again')
